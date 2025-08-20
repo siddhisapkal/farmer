@@ -195,17 +195,16 @@
             text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
+        /* Enhanced hero section styling with better animations and layout */
         .hero {
-            height: 100vh;
-            background: linear-gradient(135deg, rgba(26, 93, 26, 0.8) 0%, rgba(74, 124, 89, 0.6) 100%),
-                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><pattern id="grain" patternUnits="userSpaceOnUse" width="100" height="100"><circle cx="50" cy="50" r="2" fill="%23ffffff" opacity="0.1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grain)"/></svg>');
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
+            background: linear-gradient(135deg, #2d5016 0%, #4a7c59 50%, #68a085 100%);
             color: white;
+            padding: 100px 0;
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            min-height: 80vh;
         }
 
         .hero::before {
@@ -215,43 +214,116 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background: url('/placeholder.svg?height=1080&width=1920') center/cover;
-            opacity: 0.3;
-            z-index: -1;
+            background: url('/placeholder.svg?height=800&width=1200') center/cover;
+            opacity: 0.1;
+            z-index: 1;
         }
 
-        .hero-content h1 {
-            font-size: 4rem;
-            margin-bottom: 1.5rem;
-            font-weight: 800;
-            text-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            animation: fadeInUp 1s ease;
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
         }
 
-        .hero-content p {
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .brand-highlight {
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
             font-size: 1.3rem;
-            margin-bottom: 2.5rem;
-            opacity: 0.95;
-            animation: fadeInUp 1s ease 0.2s both;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            line-height: 1.6;
         }
 
-        .cta-buttons {
+        .hero-stats {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #ffd700;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .hero-buttons {
             display: flex;
             gap: 20px;
-            justify-content: center;
             flex-wrap: wrap;
-            animation: fadeInUp 1s ease 0.4s both;
         }
 
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        .btn-large {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            border-radius: 50px;
+        }
+
+        .hero-image {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .floating-crops {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .crop-emoji {
+            position: absolute;
+            font-size: 2rem;
+            animation: float 6s ease-in-out infinite;
+            opacity: 0.7;
+        }
+
+        .crop-emoji:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .crop-emoji:nth-child(2) { top: 20%; right: 15%; animation-delay: 1s; }
+        .crop-emoji:nth-child(3) { bottom: 30%; left: 20%; animation-delay: 2s; }
+        .crop-emoji:nth-child(4) { bottom: 20%; right: 10%; animation-delay: 3s; }
+        .crop-emoji:nth-child(5) { top: 50%; left: 5%; animation-delay: 4s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
         }
 
         .card {
@@ -592,8 +664,27 @@
             line-height: 1.6;
         }
 
-        /* Responsive Design */
+        /* Enhanced responsive design for mobile */
         @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-stats {
+                justify-content: center;
+                gap: 20px;
+            }
+            
+            .stat-number {
+                font-size: 2rem;
+            }
+
             .nav-links {
                 display: none;
             }
@@ -699,20 +790,44 @@
         </div>
     </nav>
 
-    <!-- Hero Section -->
+    <!-- Enhanced hero section with better styling and animations -->
     <section id="home" class="section active">
         <div class="hero">
             <div class="hero-content">
-                <h1>🌾 Farming Support System 🌾</h1>
-                <p>Connecting farmers, sharing knowledge, and growing together</p>
-                <div class="cta-buttons">
-                    <a href="#" onclick="showSection('farmers')" class="btn btn-primary">
-                        <i class="fas fa-users"></i> Join Community
-                    </a>
-                    <a href="#" onclick="showSection('queries')" class="btn btn-secondary">
-                        <i class="fas fa-question-circle"></i> Ask Question
-                    </a>
+                <div class="floating-crops">
+                    <span class="crop-emoji">🌾</span>
+                    <span class="crop-emoji">🌽</span>
+                    <span class="crop-emoji">🍅</span>
+                    <span class="crop-emoji">🥕</span>
+                    <span class="crop-emoji">🌱</span>
                 </div>
+                <h1 class="hero-title">Welcome to <span class="brand-highlight">FarmLink</span></h1>
+                <p class="hero-subtitle">Connecting Indian Farmers • Sharing Knowledge • Growing Together</p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">10,000+</div>
+                        <div class="stat-label">Active Farmers</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">5,000+</div>
+                        <div class="stat-label">Queries Solved</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">2,000+</div>
+                        <div class="stat-label">Equipment Shared</div>
+                    </div>
+                </div>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary btn-large" onclick="showSection('farmers')">
+                        <i class="fas fa-user-plus"></i> Join Community
+                    </button>
+                    <button class="btn btn-secondary btn-large" onclick="showSection('queries')">
+                        <i class="fas fa-question-circle"></i> Ask Question
+                    </button>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="/placeholder.svg?height=400&width=600" alt="Indian Farmer" />
             </div>
         </div>
     </section>
@@ -725,7 +840,6 @@
             
             <div class="card">
                 <h3><i class="fas fa-user-plus"></i> Create Your Farmer Profile</h3>
-                <!-- Changed form to be more like account registration -->
                 <form id="farmerForm" onsubmit="addFarmer(event)">
                     <div class="form-grid">
                         <div class="form-group">
@@ -755,13 +869,10 @@
                             <input type="number" id="farmerFieldSize" placeholder="Total farm area" required>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-phone"></i> Mobile Number</label>
-                            <input type="tel" id="farmerContact" placeholder="+91-XXXXXXXXXX" required>
+                            <label><i class="fas fa-phone"></i> Contact Info</label>
+                            <input type="text" id="farmerContact" placeholder="Mobile/Email" required>
                         </div>
-                        <div class="form-group">
-                            <label><i class="fas fa-envelope"></i> Email (Optional)</label>
-                            <input type="email" id="farmerEmail" placeholder="your.email@example.com">
-                        </div>
+                        <!-- Removed email field as it's not in the database schema -->
                     </div>
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-user-check"></i> Join FarmLink Community
@@ -826,20 +937,22 @@
                             <input type="text" id="queryTitle" required>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-user"></i> Your Name</label>
-                            <input type="text" id="queryAuthor" required>
-                        </div>
-                        <div class="form-group">
                             <label><i class="fas fa-leaf"></i> Crop Type</label>
                             <select id="queryCropType" required>
                                 <option value="">Select Crop</option>
                             </select>
+                        </div>
+                        <!-- Added image URL field as per database schema -->
+                        <div class="form-group">
+                            <label><i class="fas fa-image"></i> Image URL (Optional)</label>
+                            <input type="url" id="queryImageUrl" placeholder="https://example.com/image.jpg">
                         </div>
                     </div>
                     <div class="form-group">
                         <label><i class="fas fa-align-left"></i> Description</label>
                         <textarea id="queryDescription" rows="4" required></textarea>
                     </div>
+                    <!-- Removed author field as it should use FarmerID -->
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-paper-plane"></i> Post Query
                     </button>
@@ -895,16 +1008,13 @@
                             <input type="number" id="equipmentRate" required>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-user"></i> Owner Name</label>
-                            <input type="text" id="equipmentOwner" required>
-                        </div>
-                        <div class="form-group">
-                            <label><i class="fas fa-check-circle"></i> Availability</label>
+                            <label><i class="fas fa-check-circle"></i> Availability Status</label>
                             <select id="equipmentAvailability" required>
                                 <option value="Available">Available</option>
                                 <option value="Unavailable">Unavailable</option>
                             </select>
                         </div>
+                        <!-- Removed owner field as it should use OwnerID -->
                     </div>
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-plus"></i> Add Equipment
@@ -944,10 +1054,6 @@
                             </select>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-user"></i> Borrower Name</label>
-                            <input type="text" id="lendingBorrower" required>
-                        </div>
-                        <div class="form-group">
                             <label><i class="fas fa-calendar"></i> Start Date</label>
                             <input type="date" id="lendingStartDate" required>
                         </div>
@@ -955,6 +1061,7 @@
                             <label><i class="fas fa-clock"></i> Duration (days)</label>
                             <input type="number" id="lendingDuration" required>
                         </div>
+                        <!-- Removed borrower field as it should use BorrowerID -->
                     </div>
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-paper-plane"></i> Submit Request
@@ -976,10 +1083,6 @@
                 <form id="reviewForm" onsubmit="addReview(event)">
                     <div class="form-grid">
                         <div class="form-group">
-                            <label><i class="fas fa-user"></i> Your Name</label>
-                            <input type="text" id="reviewName" required>
-                        </div>
-                        <div class="form-group">
                             <label><i class="fas fa-star"></i> Rating</label>
                             <div class="stars" id="reviewStars">
                                 <i class="fas fa-star" onclick="setRating(1)"></i>
@@ -989,11 +1092,21 @@
                                 <i class="fas fa-star" onclick="setRating(5)"></i>
                             </div>
                         </div>
+                        <!-- Added review type field as per database schema -->
+                        <div class="form-group">
+                            <label><i class="fas fa-tags"></i> Review Type</label>
+                            <select id="reviewType" required>
+                                <option value="">Select Type</option>
+                                <option value="Farmer">Farmer</option>
+                                <option value="Equipment">Equipment</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label><i class="fas fa-comment"></i> Feedback</label>
                         <textarea id="reviewFeedback" rows="4" required></textarea>
                     </div>
+                    <!-- Removed name field as it should use FromFarmerID -->
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-paper-plane"></i> Submit Review
                     </button>
