@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farming Support System</title>
+    <title>FarmLink - Connect, Share, Grow Together</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -679,8 +679,10 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="logo">
+                <!-- Updated logo to FarmLink with farming icon -->
+                <i class="fas fa-link"></i>
                 <i class="fas fa-seedling"></i>
-                FarmSupport Pro
+                FarmLink
             </div>
             <ul class="nav-links">
                 <li><a href="#" onclick="showSection('home')" class="active"><i class="fas fa-home"></i> Home</a></li>
@@ -722,32 +724,47 @@
             <h2 class="section-title">👨‍🌾 Farmers Community</h2>
             
             <div class="card">
-                <h3><i class="fas fa-user-plus"></i> Add New Farmer</h3>
+                <h3><i class="fas fa-user-plus"></i> Create Your Farmer Profile</h3>
+                <!-- Changed form to be more like account registration -->
                 <form id="farmerForm" onsubmit="addFarmer(event)">
                     <div class="form-grid">
                         <div class="form-group">
-                            <label><i class="fas fa-user"></i> Name</label>
-                            <input type="text" id="farmerName" required>
+                            <label><i class="fas fa-user"></i> Your Name</label>
+                            <input type="text" id="farmerName" placeholder="Enter your full name" required>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-map-marker-alt"></i> Location</label>
-                            <input type="text" id="farmerLocation" required>
+                            <label><i class="fas fa-map-marker-alt"></i> Your Farm Location</label>
+                            <input type="text" id="farmerLocation" placeholder="Village, District, State" required>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-language"></i> Language</label>
-                            <input type="text" id="farmerLanguage" required>
+                            <label><i class="fas fa-language"></i> Primary Language</label>
+                            <select id="farmerLanguage" required>
+                                <option value="">Select Language</option>
+                                <option value="Hindi">Hindi</option>
+                                <option value="English">English</option>
+                                <option value="Marathi">Marathi</option>
+                                <option value="Tamil">Tamil</option>
+                                <option value="Telugu">Telugu</option>
+                                <option value="Gujarati">Gujarati</option>
+                                <option value="Punjabi">Punjabi</option>
+                                <option value="Bengali">Bengali</option>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-expand-arrows-alt"></i> Field Size (acres)</label>
-                            <input type="number" id="farmerFieldSize" required>
+                            <label><i class="fas fa-expand-arrows-alt"></i> Farm Size (acres)</label>
+                            <input type="number" id="farmerFieldSize" placeholder="Total farm area" required>
                         </div>
                         <div class="form-group">
-                            <label><i class="fas fa-phone"></i> Contact</label>
-                            <input type="tel" id="farmerContact" required>
+                            <label><i class="fas fa-phone"></i> Mobile Number</label>
+                            <input type="tel" id="farmerContact" placeholder="+91-XXXXXXXXXX" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-envelope"></i> Email (Optional)</label>
+                            <input type="email" id="farmerEmail" placeholder="your.email@example.com">
                         </div>
                     </div>
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Add Farmer
+                        <i class="fas fa-user-check"></i> Join FarmLink Community
                     </button>
                 </form>
             </div>
@@ -1023,11 +1040,13 @@
                 location: document.getElementById('farmerLocation').value,
                 language: document.getElementById('farmerLanguage').value,
                 fieldSize: document.getElementById('farmerFieldSize').value,
-                contact: document.getElementById('farmerContact').value
+                contact: document.getElementById('farmerContact').value,
+                email: document.getElementById('farmerEmail').value || 'Not provided'
             };
             farmers.push(farmer);
             document.getElementById('farmerForm').reset();
             populateFarmersGrid();
+            alert('Welcome to FarmLink! Your farmer profile has been created successfully.');
         }
 
         function populateFarmersGrid() {
@@ -1039,6 +1058,7 @@
                     <p><i class="fas fa-language"></i> ${farmer.language}</p>
                     <p><i class="fas fa-expand-arrows-alt"></i> ${farmer.fieldSize} acres</p>
                     <p><i class="fas fa-phone"></i> ${farmer.contact}</p>
+                    ${farmer.email && farmer.email !== 'Not provided' ? `<p><i class="fas fa-envelope"></i> ${farmer.email}</p>` : ''}
                 </div>
             `).join('');
         }
@@ -1314,27 +1334,39 @@
             farmers.push(
                 { 
                     id: 1, 
-                    name: 'John Smith', 
-                    location: 'Iowa, USA', 
-                    language: 'English', 
+                    name: 'Rajesh Kumar Sharma', 
+                    location: 'Jaipur, Rajasthan', 
+                    language: 'Hindi', 
                     fieldSize: '25', 
-                    contact: '+1-555-0123' 
+                    contact: '+91-9876543210',
+                    email: 'rajesh.sharma@gmail.com'
                 },
                 { 
                     id: 2, 
-                    name: 'Maria Garcia', 
-                    location: 'California, USA', 
-                    language: 'Spanish', 
+                    name: 'Sunita Devi Patel', 
+                    location: 'Ahmedabad, Gujarat', 
+                    language: 'Gujarati', 
                     fieldSize: '40', 
-                    contact: '+1-555-0124' 
+                    contact: '+91-9876543211',
+                    email: 'sunita.patel@gmail.com'
                 },
                 { 
                     id: 3, 
-                    name: 'David Johnson', 
-                    location: 'Texas, USA', 
-                    language: 'English', 
+                    name: 'Amit Singh Yadav', 
+                    location: 'Lucknow, Uttar Pradesh', 
+                    language: 'Hindi', 
                     fieldSize: '15', 
-                    contact: '+1-555-0125' 
+                    contact: '+91-9876543212',
+                    email: 'amit.yadav@gmail.com'
+                },
+                { 
+                    id: 4, 
+                    name: 'Priya Kumari', 
+                    location: 'Patna, Bihar', 
+                    language: 'Hindi', 
+                    fieldSize: '30', 
+                    contact: '+91-9876543213',
+                    email: 'priya.kumari@gmail.com'
                 }
             );
 
