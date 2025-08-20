@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farming Support System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #1a5d1a;
+            --light-green: #4a7c59;
+            --accent-green: #7fb069;
+            --bright-green: #90ee90;
+            --earthy-brown: #8b4513;
+            --warm-yellow: #ffd700;
+            --orange-accent: #ff8c00;
+            --cream-white: #faf8f3;
+            --soft-beige: #f5f5dc;
+            --card-shadow: 0 8px 32px rgba(0,0,0,0.12);
+            --hover-shadow: 0 16px 48px rgba(0,0,0,0.18);
+            --gradient-primary: linear-gradient(135deg, #1a5d1a 0%, #4a7c59 100%);
+            --gradient-accent: linear-gradient(135deg, #7fb069 0%, #90ee90 100%);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--cream-white) 0%, #f0f8e8 50%, var(--soft-beige) 100%);
+            color: #333;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Enhanced background with farming patterns */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(circle at 20% 80%, rgba(127, 176, 105, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 215, 0, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(139, 69, 19, 0.05) 0%, transparent 50%);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* Enhanced navigation with farming elements */
+        .navbar {
+            background: var(--gradient-primary);
+            padding: 1.2rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--card-shadow);
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            color: white;
+            font-size: 2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Animated logo icon */
+        .logo i {
+            animation: grow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes grow {
+            from { transform: scale(1); }
+            to { transform: scale(1.1); }
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 30px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            font-weight: 500;
+            overflow: hidden;
+        }
+
+        /* Enhanced hover effects with farming theme */
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--gradient-accent);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+
+        .nav-links a:hover::before,
+        .nav-links a.active::before {
+            left: 0;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            transform: translateY(-3px);
+            color: var(--primary-green);
+            font-weight: 600;
+        }
+
+        /* Enhanced hero section with farming imagery */
+        .hero {
+            background: 
+                linear-gradient(rgba(26, 93, 26, 0.8), rgba(74, 124, 89, 0.7)), 
+                url('/placeholder.svg?height=800&width=1400') center/cover;
+            height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Floating farming elements */
+        .hero::before {
+            content: '🌾 🚜 🌱 🌽 🍅 🥕';
+            position: absolute;
+            top: 10%;
+            left: -100%;
+            font-size: 3rem;
+            animation: float 20s linear infinite;
+            opacity: 0.3;
+        }
+
+        .hero::after {
+            content: '🌻 🌿 🍃 🌾 🚜 🌱';
+            position: absolute;
+            bottom: 10%;
+            right: -100%;
+            font-size: 2.5rem;
+            animation: float-reverse 25s linear infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes float {
+            from { left: -100%; }
+            to { left: 100%; }
+        }
+
+        @keyframes float-reverse {
+            from { right: -100%; }
+            to { right: 100%; }
+        }
+
+        .hero-content h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+            font-weight: 700;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 1s ease 0.2s both;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-weight: 400;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        .btn {
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Enhanced button styles with farming theme */
+        .btn-primary {
+            background: var(--warm-yellow);
+            color: var(--primary-green);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4);
+        }
+
+        .btn-primary:hover {
+            background: var(--orange-accent);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(255, 140, 0, 0.5);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 3px solid white;
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-green);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .section {
+            display: none;
+            animation: fadeIn 0.6s ease;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        /* Enhanced section titles with farming icons */
+        .section-title {
+            font-size: 3rem;
+            color: var(--primary-green);
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            font-weight: 700;
+        }
+
+        .section-title::before {
+            content: '🌾';
+            position: absolute;
+            left: -60px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2.5rem;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        .section-title::after {
+            content: '🌾';
+            position: absolute;
+            right: -60px;
+            top: 50%;
+            transform: translateY(-50%) scaleX(-1);
+            font-size: 2.5rem;
+            animation: bounce 2s ease-in-out infinite 0.5s;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(-50%) scale(1); }
+            50% { transform: translateY(-60%) scale(1.1); }
+        }
+
+        /* Enhanced cards with farming theme */
+        .card {
+            background: linear-gradient(145deg, white 0%, #fafafa 100%);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(127, 176, 105, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-accent);
+        }
+
+        .card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--accent-green);
+        }
+
+        .card h3 {
+            color: var(--primary-green);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        /* Add farming icons to card titles */
+        .card h3::before {
+            content: '🌱';
+            font-size: 1.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            color: var(--primary-green);
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* Enhanced form inputs with farming theme */
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem 1.2rem;
+            border: 2px solid #e8f5e8;
+            border-radius: 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: linear-gradient(145deg, white 0%, #fafafa 100%);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 4px rgba(127, 176, 105, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Grid Layouts */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2.5rem;
+        }
+
+        /* Enhanced profile cards with Indian farming theme */
+        .profile-card {
+            background: linear-gradient(145deg, white 0%, #f8fdf8 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(127, 176, 105, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(127, 176, 105, 0.1) 0%, transparent 70%);
+            transform: rotate(45deg);
+            transition: all 0.4s ease;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--accent-green);
+        }
+
+        .profile-card:hover::before {
+            transform: rotate(45deg) scale(1.2);
+        }
+
+        .profile-avatar {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: var(--gradient-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2.5rem;
+            color: white;
+            box-shadow: 0 8px 25px rgba(127, 176, 105, 0.4);
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-card h3 {
+            font-size: 1.5rem;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-card p {
+            margin-bottom: 0.8rem;
+            color: #666;
+            font-weight: 500;
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .profile-card p i {
+            color: var(--accent-green);
+            width: 20px;
+        }
+
+        /* Search and Filter */
+        .search-filter {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+            padding: 1rem 1.5rem;
+            border: 2px solid #e8f5e8;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            background: white;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 4px rgba(127, 176, 105, 0.2);
+        }
+
+        .filter-select {
+            padding: 1rem 1.5rem;
+            border: 2px solid #e8f5e8;
+            border-radius: 30px;
+            background: white;
+            font-size: 1.1rem;
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--accent-green);
+            box-shadow: 0 0 0 4px rgba(127, 176, 105, 0.2);
+        }
+
+        /* Enhanced query cards with farming imagery */
+        .query-card {
+            background: linear-gradient(145deg, white 0%, #f8fdf8 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-bottom: 2.5rem;
+            border: 2px solid rgba(127, 176, 105, 0.1);
+        }
+
+        .query-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--accent-green);
+        }
+
+        .query-image {
+            width: 100%;
+            height: 250px;
+            background: var(--gradient-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .query-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('/placeholder.svg?height=250&width=400') center/cover;
+            opacity: 0.8;
+        }
+
+        .query-content {
+            padding: 2rem;
+        }
+
+        .query-content h4 {
+            font-size: 1.4rem;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .query-tags {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            background: var(--gradient-accent);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(127, 176, 105, 0.3);
+        }
+
+        /* Equipment Cards */
+        .equipment-card {
+            background: linear-gradient(145deg, white 0%, #f8fdf8 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(127, 176, 105, 0.1);
+        }
+
+        .equipment-card:hover {
+            transform: translateY(-10px) scale(1.03);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--accent-green);
+        }
+
+        .equipment-image {
+            width: 100%;
+            height: 220px;
+            background: var(--gradient-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3.5rem;
+            position: relative;
+        }
+
+        .equipment-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('/placeholder.svg?height=220&width=350') center/cover;
+            opacity: 0.9;
+        }
+
+        .equipment-info {
+            padding: 2rem;
+        }
+
+        .equipment-info h4 {
+            font-size: 1.4rem;
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 1rem;
+        }
+
+        .status-available {
+            background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+            color: #155724;
+            box-shadow: 0 4px 15px rgba(21, 87, 36, 0.2);
+        }
+
+        .status-unavailable {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            color: #721c24;
+            box-shadow: 0 4px 15px rgba(114, 28, 36, 0.2);
+        }
+
+        /* Enhanced reviews with Indian farming context */
+        .review-card {
+            background: linear-gradient(145deg, white 0%, #f8fdf8 100%);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 2px solid rgba(127, 176, 105, 0.1);
+            position: relative;
+        }
+
+        .review-card::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            font-size: 4rem;
+            color: var(--accent-green);
+            opacity: 0.3;
+            font-family: serif;
+        }
+
+        .review-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--hover-shadow);
+            border-color: var(--accent-green);
+        }
+
+        .review-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .review-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--gradient-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 15px rgba(127, 176, 105, 0.3);
+        }
+
+        .stars {
+            color: var(--warm-yellow);
+            font-size: 1.4rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .stars i {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .stars i:hover {
+            transform: scale(1.2);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero-content h1 {
+                font-size: 2.8rem;
+            }
+
+            .hero-content p {
+                font-size: 1.2rem;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+
+            .section-title::before,
+            .section-title::after {
+                display: none;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-filter {
+                flex-direction: column;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Mobile Menu */
+        .mobile-menu {
+            display: none;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-menu:hover {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: block;
+            }
+        }
+
+        /* Add loading animation for better UX */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                किसान सहायता | FarmSupport
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showSection('home')" class="active"><i class="fas fa-home"></i> Home</a></li>
+                <li><a href="#" onclick="showSection('farmers')"><i class="fas fa-users"></i> Farmers</a></li>
+                <li><a href="#" onclick="showSection('crops')"><i class="fas fa-leaf"></i> Crops</a></li>
+                <li><a href="#" onclick="showSection('queries')"><i class="fas fa-question-circle"></i> Queries</a></li>
+                <li><a href="#" onclick="showSection('equipment')"><i class="fas fa-tractor"></i> Equipment</a></li>
+                <li><a href="#" onclick="showSection('lending')"><i class="fas fa-handshake"></i> Lending</a></li>
+                <li><a href="#" onclick="showSection('reviews')"><i class="fas fa-star"></i> Reviews</a></li>
+            </ul>
+            <div class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="section active">
+        <div class="hero">
+            <div class="hero-content">
+                <h1>🌾 Farming Support System 🌾</h1>
+                <p>Connecting Indian farmers, sharing knowledge, and growing together</p>
+                <div class="cta-buttons">
+                    <a href="#" onclick="showSection('farmers')" class="btn btn-primary">
+                        <i class="fas fa-users"></i> Join Community
+                    </a>
+                    <a href="#" onclick="showSection('queries')" class="btn btn-secondary">
+                        <i class="fas fa-question-circle"></i> Ask Question
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Farmers Section -->
+    <section id="farmers" class="section">
+        <div class="container">
+            <h2 class="section-title">Farmers Community</h2>
+            
+            <div class="card">
+                <h3>Add New Farmer</h3>
+                <form id="farmerForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i> Name</label>
+                            <input type="text" id="farmerName" placeholder="Enter farmer's name" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-map-marker-alt"></i> Location</label>
+                            <input type="text" id="farmerLocation" placeholder="Village, District, State" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-language"></i> Language</label>
+                            <select id="farmerLanguage" required>
+                                <option value="">Select Language</option>
+                                <option value="Hindi">Hindi</option>
+                                <option value="English">English</option>
+                                <option value="Punjabi">Punjabi</option>
+                                <option value="Marathi">Marathi</option>
+                                <option value="Tamil">Tamil</option>
+                                <option value="Telugu">Telugu</option>
+                                <option value="Bengali">Bengali</option>
+                                <option value="Gujarati">Gujarati</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-seedling"></i> Field Size (acres)</label>
+                            <input type="number" id="farmerFieldSize" placeholder="Enter field size" required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-phone"></i> Contact</label>
+                            <input type="text" id="farmerContact" placeholder="Mobile number" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> Add Farmer
+                    </button>
+                </form>
+            </div>
+
+            <div class="search-filter">
+                <input type="text" class="search-box" placeholder="🔍 Search farmers..." id="farmerSearch">
+                <select class="filter-select" id="farmerLocationFilter">
+                    <option value="">All Locations</option>
+                </select>
+            </div>
+
+            <div class="grid" id="farmersGrid">
+                <!-- Farmers will be populated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Crops Section -->
+    <section id="crops" class="section">
+        <div class="container">
+            <h2 class="section-title">Crop Types</h2>
+            
+            <div class="card">
+                <h3>Add New Crop Type</h3>
+                <form id="cropForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Crop Name</label>
+                            <input type="text" id="cropName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Category</label>
+                            <select id="cropCategory" required>
+                                <option value="">Select Category</option>
+                                <option value="Grains">Grains</option>
+                                <option value="Vegetables">Vegetables</option>
+                                <option value="Fruits">Fruits</option>
+                                <option value="Legumes">Legumes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Crop</button>
+                </form>
+            </div>
+
+            <div class="grid" id="cropsGrid">
+                <!-- Crops will be populated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Queries Section -->
+    <section id="queries" class="section">
+        <div class="container">
+            <h2 class="section-title">Farmer Queries</h2>
+            
+            <div class="card">
+                <h3>Post New Query</h3>
+                <form id="queryForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Title</label>
+                            <input type="text" id="queryTitle" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Crop Type</label>
+                            <select id="queryCropType" required>
+                                <option value="">Select Crop</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Description</label>
+                        <textarea id="queryDescription" rows="4" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Image</label>
+                        <input type="file" id="queryImage" accept="image/*">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Post Query</button>
+                </form>
+            </div>
+
+            <div class="search-filter">
+                <input type="text" class="search-box" placeholder="Search queries..." id="querySearch">
+                <select class="filter-select" id="queryCropFilter">
+                    <option value="">All Crops</option>
+                </select>
+            </div>
+
+            <div id="queriesGrid">
+                <!-- Queries will be populated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Equipment Section -->
+    <section id="equipment" class="section">
+        <div class="container">
+            <h2 class="section-title">Equipment</h2>
+            
+            <div class="card">
+                <h3>Add New Equipment</h3>
+                <form id="equipmentForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Equipment Name</label>
+                            <input type="text" id="equipmentName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Type</label>
+                            <select id="equipmentType" required>
+                                <option value="">Select Type</option>
+                                <option value="Tractor">Tractor</option>
+                                <option value="Harvester">Harvester</option>
+                                <option value="Plough">Plough</option>
+                                <option value="Sprayer">Sprayer</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Condition</label>
+                            <select id="equipmentCondition" required>
+                                <option value="">Select Condition</option>
+                                <option value="Excellent">Excellent</option>
+                                <option value="Good">Good</option>
+                                <option value="Fair">Fair</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Hourly Rate ($)</label>
+                            <input type="number" id="equipmentRate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Availability</label>
+                            <select id="equipmentAvailability" required>
+                                <option value="Available">Available</option>
+                                <option value="Unavailable">Unavailable</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Equipment</button>
+                </form>
+            </div>
+
+            <div class="search-filter">
+                <input type="text" class="search-box" placeholder="Search equipment..." id="equipmentSearch">
+                <select class="filter-select" id="equipmentTypeFilter">
+                    <option value="">All Types</option>
+                    <option value="Tractor">Tractor</option>
+                    <option value="Harvester">Harvester</option>
+                    <option value="Plough">Plough</option>
+                    <option value="Sprayer">Sprayer</option>
+                </select>
+            </div>
+
+            <div class="grid" id="equipmentGrid">
+                <!-- Equipment will be populated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Lending Section -->
+    <section id="lending" class="section">
+        <div class="container">
+            <h2 class="section-title">Equipment Lending</h2>
+            
+            <div class="card">
+                <h3>Request Equipment</h3>
+                <form id="lendingForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Equipment</label>
+                            <select id="lendingEquipment" required>
+                                <option value="">Select Equipment</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Borrower Name</label>
+                            <input type="text" id="lendingBorrower" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Start Date</label>
+                            <input type="date" id="lendingStartDate" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Duration (days)</label>
+                            <input type="number" id="lendingDuration" required>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Request</button>
+                </form>
+            </div>
+
+            <div class="grid" id="lendingGrid">
+                <!-- Lending requests will be populated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="section">
+        <div class="container">
+            <h2 class="section-title">Reviews & Feedback</h2>
+            
+            <div class="card">
+                <h3>Add Review</h3>
+                <form id="reviewForm">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Your Name</label>
+                            <input type="text" id="reviewerName" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Rating</label>
+                            <div class="stars" id="ratingStars">
+                                <i class="far fa-star" data-rating="1"></i>
+                                <i class="far fa-star" data-rating="2"></i>
+                                <i class="far fa-star" data-rating="3"></i>
+                                <i class="far fa-star" data-rating="4"></i>
+                                <i class="far fa-star" data-rating="5"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Feedback</label>
+                        <textarea id="reviewFeedback" rows="4" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit Review</button>
+                </form>
+            </div>
+
+            <div class="grid" id="reviewsGrid">
+                <!-- Reviews will be populated here -->
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Data storage
+        let farmers = [];
+        let crops = [];
+        let queries = [];
+        let equipment = [];
+        let lendingRequests = [];
+        let reviews = [];
+        let selectedRating = 0;
+
+        // Navigation
+        function showSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show selected section
+            document.getElementById(sectionName).classList.add('active');
+            
+            // Update nav links
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+
+        function initializeSampleData() {
+            farmers.push(
+                { 
+                    id: 1, 
+                    name: 'Rajesh Kumar Sharma', 
+                    location: 'Khargone, Madhya Pradesh', 
+                    language: 'Hindi', 
+                    fieldSize: '25', 
+                    contact: '+91-9876543210' 
+                },
+                { 
+                    id: 2, 
+                    name: 'Sunita Devi', 
+                    location: 'Ludhiana, Punjab', 
+                    language: 'Punjabi', 
+                    fieldSize: '40', 
+                    contact: '+91-9876543211' 
+                },
+                { 
+                    id: 3, 
+                    name: 'Amit Patel', 
+                    location: 'Anand, Gujarat', 
+                    language: 'Gujarati', 
+                    fieldSize: '15', 
+                    contact: '+91-9876543212' 
+                },
+                { 
+                    id: 4, 
+                    name: 'Priya Sharma', 
+                    location: 'Nashik, Maharashtra', 
+                    language: 'Marathi', 
+                    fieldSize: '30', 
+                    contact: '+91-9876543213' 
+                }
+            );
+
+            crops.push(
+                { id: 1, name: 'Wheat', category: 'Grains' },
+                { id: 2, name: 'Rice', category: 'Grains' },
+                { id: 3, name: 'Tomatoes', category: 'Vegetables' },
+                { id: 4, name: 'Onions', category: 'Vegetables' },
+                { id: 5, name: 'Mango', category: 'Fruits' },
+                { id: 6, name: 'Chickpea', category: 'Legumes' }
+            );
+
+            equipment.push(
+                { 
+                    id: 1, 
+                    name: 'Mahindra 575 DI Tractor', 
+                    type: 'Tractor', 
+                    condition: 'Excellent', 
+                    rate: '800', 
+                    availability: 'Available',
+                    owner: 'Rajesh Kumar'
+                },
+                { 
+                    id: 2, 
+                    name: 'Combine Harvester', 
+                    type: 'Harvester', 
+                    condition: 'Good', 
+                    rate: '1200', 
+                    availability: 'Available',
+                    owner: 'Amit Patel'
+                }
+            );
+
+            queries.push(
+                {
+                    id: 1,
+                    title: 'Yellow leaf problem in wheat crop',
+                    description: 'My wheat field is showing yellow leaves. Please suggest solutions for this issue.',
+                    cropType: 'Wheat',
+                    farmer: 'Rajesh Kumar',
+                    date: new Date().toLocaleDateString('en-IN')
+                }
+            );
+
+            reviews.push(
+                {
+                    id: 1,
+                    name: 'Sunita Devi',
+                    rating: 5,
+                    feedback: 'This platform is very useful. I got solutions for my crop problems quickly.',
+                    date: new Date().toLocaleDateString('en-IN')
+                },
+                {
+                    id: 2,
+                    name: 'Amit Patel',
+                    rating: 4,
+                    feedback: 'Great platform for farmers to connect and share knowledge. Very helpful!',
+                    date: new Date().toLocaleDateString('en-IN')
+                }
+            );
+
+            renderFarmers();
+            renderCrops();
+            renderQueries();
+            renderEquipment();
+            renderReviews();
+            populateDropdowns();
+        }
+
+        function renderFarmers() {
+            const grid = document.getElementById('farmersGrid');
+            grid.innerHTML = farmers.map(farmer => `
+                <div class="profile-card">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>${farmer.name}</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> ${farmer.location}</p>
+                    <p><i class="fas fa-language"></i> ${farmer.language}</p>
+                    <p><i class="fas fa-seedling"></i> ${farmer.fieldSize} acres</p>
+                    <p><i class="fas fa-phone"></i> ${farmer.contact}</p>
+                </div>
+            `).join('');
+        }
+
+        function renderCrops() {
+            const grid = document.getElementById('cropsGrid');
+            if (grid) {
+                grid.innerHTML = crops.map(crop => `
+                    <div class="profile-card">
+                        <div class="profile-avatar">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h3>${crop.name}</h3>
+                        <p><i class="fas fa-tag"></i> ${crop.category}</p>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function renderQueries() {
+            const grid = document.getElementById('queriesGrid');
+            if (grid) {
+                grid.innerHTML = queries.map(query => `
+                    <div class="query-card">
+                        <div class="query-image">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <div class="query-content">
+                            <h4>${query.title}</h4>
+                            <p>${query.description}</p>
+                            <div class="query-tags">
+                                <span class="tag">${query.cropType}</span>
+                                <span class="tag">By: ${query.farmer}</span>
+                                <span class="tag">${query.date}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function renderEquipment() {
+            const grid = document.getElementById('equipmentGrid');
+            if (grid) {
+                grid.innerHTML = equipment.map(item => `
+                    <div class="equipment-card">
+                        <div class="equipment-image">
+                            <i class="fas fa-tractor"></i>
+                        </div>
+                        <div class="equipment-info">
+                            <h4>${item.name}</h4>
+                            <p><i class="fas fa-cog"></i> Type: ${item.type}</p>
+                            <p><i class="fas fa-star"></i> Condition: ${item.condition}</p>
+                            <p><i class="fas fa-rupee-sign"></i> Rate: ₹${item.rate}/hour</p>
+                            <p><i class="fas fa-user"></i> Owner: ${item.owner}</p>
+                            <span class="status-badge status-${item.availability.toLowerCase()}">
+                                ${item.availability}
+                            </span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function renderReviews() {
+            const grid = document.getElementById('reviewsGrid');
+            if (grid) {
+                grid.innerHTML = reviews.map(review => `
+                    <div class="review-card">
+                        <div class="review-header">
+                            <div class="review-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <h4>${review.name}</h4>
+                                <div class="stars">
+                                    ${'★'.repeat(review.rating)}${'☆'.repeat(5-review.rating)}
+                                </div>
+                                <small>${review.date}</small>
+                            </div>
+                        </div>
+                        <p>${review.feedback}</p>
+                    </div>
+                `).join('');
+            }
+        }
+
+        function populateDropdowns() {
+            // Populate crop dropdowns
+            const cropSelects = document.querySelectorAll('#queryCropType, #queryCropFilter');
+            cropSelects.forEach(select => {
+                if (select) {
+                    select.innerHTML = '<option value="">Select Crop</option>' + 
+                        crops.map(crop => `<option value="${crop.name}">${crop.name}</option>`).join('');
+                }
+            });
+
+            // Populate location filter
+            const locationFilter = document.getElementById('farmerLocationFilter');
+            if (locationFilter) {
+                const locations = [...new Set(farmers.map(f => f.location))];
+                locationFilter.innerHTML = '<option value="">All Locations</option>' +
+                    locations.map(loc => `<option value="${loc}">${loc}</option>`).join('');
+            }
+        }
+
+        // Form submissions
+        document.getElementById('farmerForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(e.target);
+            const farmer = {
+                id: farmers.length + 1,
+                name: document.getElementById('farmerName').value,
+                location: document.getElementById('farmerLocation').value,
+                language: document.getElementById('farmerLanguage').value,
+                fieldSize: document.getElementById('farmerFieldSize').value,
+                contact: document.getElementById('farmerContact').value
+            };
+            farmers.push(farmer);
+            renderFarmers();
+            populateDropdowns();
+            e.target.reset();
+            alert('किसान सफलतापूर्वक जोड़ा गया! (Farmer added successfully!)');
+        });
+
+        // Initialize the app
+        initializeSampleData();
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add loading animation to buttons
+            document.querySelectorAll('.btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    if (this.type === 'submit') {
+                        const originalText = this.innerHTML;
+                        this.innerHTML = '<div class="loading"></div> Processing...';
+                        setTimeout(() => {
+                            this.innerHTML = originalText;
+                        }, 2000);
+                    }
+                });
+            });
+
+            // Add hover sound effect (visual feedback)
+            document.querySelectorAll('.card, .profile-card, .query-card, .equipment-card, .review-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px) scale(1.02)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0) scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
